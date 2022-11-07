@@ -30,7 +30,7 @@ const AuthShowcase: React.FC = () => {
   const { data: sessionData } = useSession();
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2">
+    <>
       {sessionData && (
         <p className="text-2xl text-blue-500">
           Logged in as {sessionData?.user?.name}
@@ -45,6 +45,6 @@ const AuthShowcase: React.FC = () => {
       >
         {sessionData ? "Sign out" : "Sign in"}
       </button>
-    </div>
+    </>
   );
 };
