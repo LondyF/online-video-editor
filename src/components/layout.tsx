@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Layout as AntLayout, Menu } from "antd";
 import { MenuClickEventHandler } from "rc-menu/lib/interface";
 
-const { Header, Content, Footer } = AntLayout;
+const { Header, Content } = AntLayout;
 
 type Props = {
   children: React.ReactNode;
@@ -42,7 +42,6 @@ const Layout: React.FC<Props> = ({ children }) => {
         />
       </Header>
       <Content style={{ padding: "24px 50px" }}>{children}</Content>
-      <Footer>Awesome Footer</Footer>
     </AntLayout>
   );
 };

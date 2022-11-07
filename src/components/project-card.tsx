@@ -3,7 +3,9 @@ import { useRouter } from "next/router";
 import { Card } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
-import { Project } from "../models";
+import { useSession } from "next-auth/react";
+
+import { ProjectWithUser } from "../models";
 
 const { Meta } = Card;
 
@@ -21,8 +23,21 @@ const ProjectCover = (
   />
 );
 
-const ProjectCard: React.FC<Project> = ({ id, name }) => {
+type Props = {
+  onDeleteAction: (id: string) => void;
+};
+
+const ProjectCard: React.FC<ProjectWithUser & Props> = ({
+  id,
+  name,
+  userId: projectOwnerUserId,
+  onDeleteAction,
+  user,
+}) => {
   const router = useRouter();
+  const session = useSession();
+
+  const isUserOwnedProject = session.data?.user?.id === projectOwnerUserId;
 
   const handleEditClick = () => {
     router.push(`/projects/${id}`);
@@ -30,12 +45,26 @@ const ProjectCard: React.FC<Project> = ({ id, name }) => {
 
   const ACTIONS = [
     <EditOutlined onClick={handleEditClick} key="edit" />,
-    <DeleteOutlined key="delete" />,
-  ];
+    isUserOwnedProject && (
+      <DeleteOutlined
+        onClick={() => onDeleteAction(id)}
+        key="delete"
+        style={{ color: "red" }}
+      />
+    ),
+  ].filter(Boolean);
 
   return (
     <Card actions={ACTIONS} cover={ProjectCover}>
-      <Meta title={name} />
+      <Meta
+        title={name}
+        description={
+          <span>
+            Project owned by
+            <strong>{isUserOwnedProject ? "you" : user.name}</strong>
+          </span>
+        }
+      />
     </Card>
   );
 };

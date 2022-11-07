@@ -14,6 +14,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   open,
   isLoading,
   onCreate,
+  onCancel,
 }) => {
   const [form] = Form.useForm();
 
@@ -28,12 +29,18 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
     }
   };
 
+  const reset = () => {
+    form.resetFields();
+  };
+
   return (
     <Modal
       confirmLoading={isLoading}
       onOk={handleOnOk}
       title="Create A New Project"
       open={open}
+      onCancel={onCancel}
+      afterClose={reset}
     >
       <Form form={form} layout="vertical" initialValues={{ projectName: "" }}>
         <Form.Item
@@ -43,6 +50,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
           style={{ marginBottom: 0 }}
         >
           <Input
+            disabled={isLoading}
             placeholder="Enter a project name"
             size="middle"
             prefix={<ProjectOutlined />}

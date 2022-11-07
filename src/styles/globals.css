@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* @import url('https://fonts.googleapis.com/css?family=Anton'); */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat');
+
 button.ant-btn-primary {
     background-color: #1890ff;
 }

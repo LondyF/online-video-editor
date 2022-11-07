@@ -1,0 +1,28 @@
+{
+    "title": "My First Video",
+    "project": {},
+    "keys": [
+        {
+            "startTime": 0.00,
+            "endTime": 0.30,
+            "effect": ["rotate-right", "scale"],
+            "text": "Hey I am a text",
+            "style": {
+                "fontSize": 20,
+                "color": "black"
+            },
+            "type": "text"
+        },
+        {
+            "startTime": 0.30,
+            "endTime": 0.60,
+            "effect": ["fadeIn-fadeOut"],
+            "text": "Hey I am a text",
+            "style": {
+                "fontSize": 20,
+                "color": "black"
+            },
+            "type": "text"
+        }
+    ]
+}
