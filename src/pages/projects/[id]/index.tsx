@@ -1,9 +1,10 @@
 import { Player } from "@remotion/player";
 import { Button, PageHeader, Result, Spin } from "antd";
 import type { NextPage } from "next";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import { AbsoluteFill, Sequence } from "remotion";
 
 import Spacer from "../../../components/spacer";
@@ -319,10 +320,13 @@ const NoProjectFound: React.FC = () => {
 };
 
 const Project: NextPage = () => {
+  const session = useSession();
   const router = useRouter();
   const { id } = router.query;
 
   const project = trpc.project.byId.useQuery(String(id));
+
+  console.log(project.data);
 
   if (project.isLoading) {
     return <Spin />;
@@ -338,13 +342,17 @@ const Project: NextPage = () => {
     router.push("/projects");
   };
 
+  const isProjectOwner = session.data?.user?.id === project.data.userId;
+
   return (
     <div>
       <div className="flex flex-row items-center justify-between">
         <PageHeader onBack={handleBack} title={name} />
-        <Link href={`${router.asPath}/collaborators`}>
-          <Button type="ghost">Collaborators</Button>
-        </Link>
+        {isProjectOwner && (
+          <Link href={`${router.asPath}/collaborators`}>
+            <Button type="ghost">Collaborators</Button>
+          </Link>
+        )}
       </div>
       <hr />
       <Spacer vertical={25} />

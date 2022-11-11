@@ -60,7 +60,7 @@ const ProjectCard: React.FC<ProjectWithUser & Props> = ({
         title={name}
         description={
           <span>
-            Project owned by
+            Project owned by{" "}
             <strong>{isUserOwnedProject ? "you" : user.name}</strong>
           </span>
         }

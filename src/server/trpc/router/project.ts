@@ -1,5 +1,6 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
+
 import { router, protectedProcedure } from "../trpc";
 
 export const projectRouter = router({
@@ -35,8 +36,19 @@ export const projectRouter = router({
     const userId = ctx.session.user.id;
     const project = ctx.prisma.project.findFirstOrThrow({
       where: {
-        userId,
         id: input,
+        OR: [
+          {
+            userId,
+          },
+          {
+            collaborators: {
+              some: {
+                userId,
+              },
+            },
+          },
+        ],
       },
     });
 
@@ -129,4 +141,25 @@ export const projectRouter = router({
 
       return deletedProject;
     }),
+  // onSave: protectedProcedure.subscription(() => {
+  //   return observable<string>((emit) => {
+  //     const onSave = (data: string) => {
+  //       emit.next(data);
+  //     };
+
+  //     // Tell our event emitter to trigger onSave
+  //     ee.on("save", onSave);
+
+  //     // Clean up
+  //     return () => {
+  //       ee.off("save", onSave);
+  //     };
+  //   });
+  // }),
+  // save: protectedProcedure.input(z.string()).mutation(async ({ input }) => {
+  //   // Emit Save
+  //   ee.emit("save", input);
+
+  //   return input;
+  // }),
 });
