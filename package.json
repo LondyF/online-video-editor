@@ -7,7 +7,7 @@
     "dev": "next dev",
     "postinstall": "prisma generate",
     "dev:wss": "cross-env NODE_ENV=development npx tsx watch src/server/trpc/wsServer.ts --tsconfig tsconfig.json ",
-    "lint": "next lint",
+    "lint": "next lint --max-warnings 0",
     "start": "next start"
   },
   "dependencies": {
