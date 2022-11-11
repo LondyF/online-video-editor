@@ -10,7 +10,7 @@ on:
 
 jobs:
   run-linters:
-    name: Run linters
+  name: Run linters
     runs-on: ubuntu-latest
 
     steps:
@@ -29,4 +29,5 @@ jobs:
         uses: wearerequired/lint-action@v2
         with:
           eslint: true
+          eslint_dir: src/
           prettier: true
